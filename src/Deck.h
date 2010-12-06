@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #ifndef __DECK__
 #define __DECK__
 
@@ -7,10 +6,6 @@
 
 using namespace std;
 
-=======
-#include "Card.h" 
-
->>>>>>> 1080f3791e4f716103edbacae7760f3f9a68c192
 #define DECKSIZE 52
 
 class Deck { 
