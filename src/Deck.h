@@ -12,25 +12,16 @@ class Deck {
 
 public:
 	Deck();
-	string toString(){ 
-		string buffer;
-		for( int i=0; i< DECKSIZE; i++ ){
-			buffer = buffer + cards[i]->toString() + "\n"; 
-		}
-		return buffer; 
-	};
-	Deck(){ init(); };
+	void RiffleShuffle();
+	string toString();
 	
 private:
 	Card* cards[DECKSIZE]; 
+	bool  initilized;
 
-	inline void init(){
-		for( int i=0; i < SUITSIZE; i++){
-			for( int j=0; j < CARDVALUESIZE; j++){
-				cards[i*CARDVALUESIZE + j] = new Card( Card::Suit(i), Card::CardValue(j) ); 
-			}
-		}
-	};
+	inline void init();		// initialize the deck 
+	inline void spaceTheDeck();	// rebuild a new deck
+		
 };
 
 #endif
