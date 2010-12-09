@@ -35,6 +35,7 @@ void Deck::quickShuffle()
 		int rand_card = i + ( rand() % (DECKSIZE-i) );
 		swapCards( i, rand_card );
 	}
+	topCardIndex = 0;
 }
 
 void Deck::riffleShuffle()
@@ -62,6 +63,37 @@ void Deck::riffleShuffle()
 	for( int i=0; i < DECKSIZE; i++ ){
 		cards[i] = newcards[i]; 
 	}
+}
+
+inline void Deck::burnCard()
+{
+	++topCardIndex;
+}
+
+Card* Deck::popCard()
+{
+	Card* pop = cards[topCardIndex++];
+	return pop;
+}
+
+void Deck::getFlop( Card* &c1, Card* &c2, Card* &c3 )
+{
+	burnCard();
+	c1 = cards[topCardIndex++];
+	c2 = cards[topCardIndex++];
+	c3 = cards[topCardIndex++];
+}
+
+Card* Deck::getTurn()
+{
+	burnCard();
+	return popCard();
+}
+
+Card* Deck::getRiver()
+{
+	burnCard();
+	return popCard();
 }
 
 unsigned int Deck::getRandomSeed()

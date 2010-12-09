@@ -20,16 +20,26 @@ class Deck {
 
 public:
 	Deck();
+
 	void quickShuffle();
 	void riffleShuffle();
+
+	inline void burnCard(); 
+	Card* popCard();
+	void getFlop( Card* &, Card* &, Card* & );
+	Card* getTurn();
+	Card* getRiver();
+
 	string toString();
-	unsigned int getRandomSeed();	// read a byte out of urandom
 	
 private:
 	Card* cards[DECKSIZE]; 
 	bool  initilized;
+	int   topCardIndex;
 
 	inline void init();		// initialize the deck 
+
+	unsigned int getRandomSeed();	// read a byte out of urandom
 	inline void spaceTheDeck();	// rebuild a new deck
 	inline void swapCards(int,int);	// swaping two card position
 		
