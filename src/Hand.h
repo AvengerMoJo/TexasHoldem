@@ -25,10 +25,15 @@ public:
 	bool isFullHouse();
 	bool isFlush();
 	bool isStraight();
+	bool isThreeOfAKind();
+	bool isPair();
 
 private:
 	inline void init();
-	inline int lowBit( unsigned int);
+	inline int lowBit( unsigned int );
+	inline int countBits( unsigned int );
+	bool isThreeOfAKind( int* );
+
 
 	int flush;
 	int straight[SUITSIZE];

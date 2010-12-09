@@ -30,6 +30,8 @@ void play( Deck* myDeck )
 	std::cout << "My Hands has full house " << boolalpha << myHand.isFullHouse() << endl;
 	std::cout << "My Hands has four of a kind " << boolalpha << myHand.isFourOfAKind() << endl;
 	std::cout << "My Hands has straight flush " << boolalpha << myHand.isStraightFlush() << endl;
+	std::cout << "My Hands has three of a kind " << boolalpha << myHand.isThreeOfAKind() << endl;
+	std::cout << "My Hands has pair " << boolalpha << myHand.isPair() << endl;
 
 	turn = myDeck->getTurn(); 
 	std::cout << "Turn card " << turn->toString() << endl;
@@ -39,6 +41,8 @@ void play( Deck* myDeck )
 	std::cout << "My Hands has full house " << boolalpha << myHand.isFullHouse() << endl;
 	std::cout << "My Hands has four of a kind " << boolalpha << myHand.isFourOfAKind() << endl;
 	std::cout << "My Hands has straight flush " << boolalpha << myHand.isStraightFlush() << endl;
+	std::cout << "My Hands has three of a kind " << boolalpha << myHand.isThreeOfAKind() << endl;
+	std::cout << "My Hands has pair " << boolalpha << myHand.isPair() << endl;
 
 	river = myDeck->getRiver(); 
 	std::cout << "River card " << river->toString() << endl;
@@ -48,6 +52,8 @@ void play( Deck* myDeck )
 	std::cout << "My Hands has full house " << boolalpha << myHand.isFullHouse() << endl;
 	std::cout << "My Hands has four of a kind " << boolalpha << myHand.isFourOfAKind() << endl;
 	std::cout << "My Hands has straight flush " << boolalpha << myHand.isStraightFlush() << endl;
+	std::cout << "My Hands has three of a kind " << boolalpha << myHand.isThreeOfAKind() << endl;
+	std::cout << "My Hands has pair " << boolalpha << myHand.isPair() << endl;
 }
 
 int main(){

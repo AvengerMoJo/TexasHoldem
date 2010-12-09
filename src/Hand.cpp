@@ -89,40 +89,35 @@ bool Hand::isFourOfAKind()
 {
 	fourofakind = straight[0] & straight[1] & straight[2] & straight[3] ;
 	if( fourofakind ){
-		highcard = lowBit( fourofakind ); 
+		highcard = lowBit( fourofakind )+1; 
 	}
 	return fourofakind;
 }
 
 bool Hand::isFullHouse()
 {
-	int lowthree=0,highthree=0,tmp=0;
-	unsigned int a = straight[0] & straight[1] & straight[2];
-	unsigned int b = straight[0] & straight[1] & straight[3];
-	unsigned int c = straight[0] & straight[2] & straight[3];
-	unsigned int d = straight[1] & straight[2] & straight[3];
-	if( (tmp = a | b | c | d ) == 0 ){ 
-		return false;
-	} else {
-		threeofakind = true;
-		lowthree = 1+lowBit( tmp ); 
-		highthree = lowBit( tmp >> lowthree ); 
+	int lowthree=0,highthree=0,allthree=0;
+	if( isThreeOfAKind(&allthree) ){ 
+		lowthree = 1+lowBit( allthree ); 
+		highthree = lowBit( allthree >> lowthree ); 
 		if( highthree >= 0 )
-			highcard = highthree + lowthree - 1;
+			highcard = highthree + lowthree;
 		else
-			highcard = highthree = lowthree - 1;
+			highcard = highthree = lowthree;
 		if( highthree != lowthree ) {
 			fullhouse = true;
-			return true;
 		} else {
-			if( ~tmp & (straight[0] & straight[1]) | ~tmp & (straight[0] & straight[2]) |
-			    ~tmp & (straight[0] & straight[3]) | ~tmp & (straight[1] & straight[2]) |
-			    ~tmp & (straight[1] & straight[3]) | ~tmp & (straight[2] & straight[3]) ) {
+			if( ~allthree & (straight[0] & straight[1]) |
+			    ~allthree & (straight[0] & straight[2]) |
+			    ~allthree & (straight[0] & straight[3]) |
+			    ~allthree & (straight[1] & straight[2]) |
+			    ~allthree & (straight[1] & straight[3]) |
+			    ~allthree & (straight[2] & straight[3]) ) {
 				fullhouse = true; 
 			}
-			return fullhouse; 
 		}
 	}
+	return fullhouse; 
 }
 
 bool Hand::isFlush()
@@ -153,9 +148,59 @@ bool Hand::isStraight()
 	return allvalue & (allvalue << 1) & (allvalue << 2) & (allvalue << 3) & (allvalue << 4);
 }
 
-inline int Hand::lowBit( unsigned int v )
+bool Hand::isThreeOfAKind()
 {
-        float f = (float)(v & -v); // cast the least significant bit in v to a float
-        return  (*(uint32_t *)&f >> 23) - 0x7f;
+	int tmp; 
+	return isThreeOfAKind(&tmp);
+}
+
+bool Hand::isThreeOfAKind( int* tmp )
+{
+        unsigned int a = straight[0] & straight[1] & straight[2];
+        unsigned int b = straight[0] & straight[1] & straight[3];
+        unsigned int c = straight[0] & straight[2] & straight[3];
+        unsigned int d = straight[1] & straight[2] & straight[3];
+        *tmp = a | b | c | d ;
+        if( (*tmp) == 0 ){
+                return false;
+        } else {
+		threeofakind = true;
+	}
+	return threeofakind;
+}
+
+bool Hand::isPair()
+{
+	// do we assume we already not four and three of a kind already 
+	if( threeofakind | fourofakind ) return true;
+	unsigned int value = straight[0] | straight[1] | straight[2] | straight[3];
+	int count = countBits( value ) - stage;
+	if( stage == Hole ){
+		return count == 1;
+	} else {  
+		switch( count ) {
+			case 0:
+				// three pair 
+			case 1:
+				// two pair 
+			case 2:
+				// one pair 
+				return true; 
+			default:
+				// no pair 
+				return false;
+		}
+	}
+}
+
+inline int Hand::lowBit( unsigned int b )
+{
+	float f = (float)(b & -b);
+	return  (*(uint32_t *)&f >> 23) - 0x7f;
+}
+
+inline int Hand::countBits( unsigned int b )
+{
+	return (b * 0x200040008001ULL & 0x111111111111111ULL ) % 0xf;
 }
 
